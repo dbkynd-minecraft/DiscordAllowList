@@ -20,9 +20,6 @@ public class DiscordAllowList
     private static String sqlTable = "AllowList";
 
     public DiscordAllowList() throws LoginException {
-        // Register ourselves for server and other game events we are interested in
-        // MinecraftForge.EVENT_BUS.register(this);
-
       // TODO: Get from config file
       sql = new MySQLConnection("", "", "", "", "");
       sql.connect();
