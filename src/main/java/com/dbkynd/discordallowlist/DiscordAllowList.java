@@ -1,10 +1,15 @@
 package com.dbkynd.discordallowlist;
 
+import com.dbkynd.discordallowlist.config.Config;
+import com.dbkynd.discordallowlist.config.MySQLConfig;
 import com.dbkynd.discordallowlist.discord.DiscordBot;
 import com.dbkynd.discordallowlist.handlers.PlayerJoinHandler;
 import com.dbkynd.discordallowlist.sql.MySQLConnection;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,8 +25,11 @@ public class DiscordAllowList
     private static String sqlTable = "AllowList";
 
     public DiscordAllowList() throws LoginException {
-      // TODO: Get from config file
-      sql = new MySQLConnection("", "", "", "", "");
+
+      ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.config);
+      Config.loadConfig(Config.config, FMLPaths.CONFIGDIR.get().resolve("discord-allow-list-common.toml").toString());
+
+      sql = new MySQLConnection(MySQLConfig.host.get(), MySQLConfig.port.get(), MySQLConfig.database.get(), MySQLConfig.username.get(), MySQLConfig.password.get());
       sql.connect();
       // Create table if does not exist
       if (!sql.tableExists(sqlTable)) {

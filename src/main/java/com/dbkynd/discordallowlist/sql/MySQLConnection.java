@@ -1,6 +1,7 @@
 package com.dbkynd.discordallowlist.sql;
 
 import com.dbkynd.discordallowlist.DiscordAllowList;
+import net.minecraftforge.common.ForgeConfigSpec;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
@@ -18,12 +19,12 @@ public class MySQLConnection {
   private String password;
   private String database;
 
-  public MySQLConnection(String sqlHost, String sqlPort, String sqlUser, String sqlPassword, String sqlDatabase) {
+  public MySQLConnection(String sqlHost, String sqlPort, String sqlDatabase, String sqlUser, String sqlPassword) {
     this.host = sqlHost;
     this.port = sqlPort;
+    this.database = sqlDatabase;
     this.user = sqlUser;
     this.password = sqlPassword;
-    this.database = sqlDatabase;
   }
 
   private Connection getConnection() {
