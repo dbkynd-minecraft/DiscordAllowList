@@ -120,7 +120,10 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.35'
 
     compile files('libs/mysql-connector-java-8.0.25.jar')
-    implementation("net.dv8tion:JDA:4.3.0_277")
+
+    implementation("net.dv8tion:JDA:4.3.0_277") {
+        exclude module: 'opus-java'
+    }
     // You may put jars on which you depend on in ./libs or you may define them like so..
     // compile "some.group:artifact:version:classifier"
     // compile "some.group:artifact:version"
