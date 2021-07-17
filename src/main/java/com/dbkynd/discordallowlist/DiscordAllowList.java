@@ -14,8 +14,6 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.security.auth.login.LoginException;
-
 @Mod("discordallowlist")
 public class DiscordAllowList {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -61,7 +59,7 @@ public class DiscordAllowList {
         try {
             sql = new MySQLConnection();
             DiscordBot.main(null);
-        } catch(Exception error) {
+        } catch (Exception error) {
             LOGGER.error(error.getMessage());
             LOGGER.error("Unable to process allow lists.");
             return;
