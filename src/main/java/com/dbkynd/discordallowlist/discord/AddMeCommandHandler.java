@@ -20,7 +20,7 @@ public class AddMeCommandHandler {
     private static final WebRequest request = new WebRequest();
 
     public static void action(SlashCommandEvent event, String ign) {
-        event.deferReply(true).queue();
+        event.deferReply().queue();
         InteractionHook hook = event.getHook();
 
         String channelId = event.getChannel().getId();
@@ -66,6 +66,7 @@ public class AddMeCommandHandler {
         } catch (Exception e) {
             e.printStackTrace();
             hook.sendMessage("There was an error updating the Minecraft user database with username **" + mojang.getName() + "**.").queue();
+            return;
         }
 
         // Tell the Discord member that everything worked as expected!
@@ -75,7 +76,6 @@ public class AddMeCommandHandler {
         builder.setColor(0x5a9a30);
         MessageEmbed embed = builder.build();
 
-        hook.deleteOriginal().queue();
-        hook.sendMessageEmbeds(embed).setEphemeral(false).queue();
+        hook.sendMessageEmbeds(embed).queue();
     }
 }
