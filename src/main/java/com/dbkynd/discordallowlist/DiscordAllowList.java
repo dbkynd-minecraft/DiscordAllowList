@@ -7,7 +7,6 @@ import com.dbkynd.discordallowlist.discord.DiscordBot;
 import com.dbkynd.discordallowlist.handlers.ServerStartHandler;
 import com.dbkynd.discordallowlist.sql.MySQLConnection;
 import com.dbkynd.discordallowlist.whitelist.WhiteList;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -16,8 +15,9 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod("discordallowlist")
+@Mod(value = DiscordAllowList.MODID)
 public class DiscordAllowList {
+    public static final String MODID = "discordallowlist";
     public static final Logger LOGGER = LogManager.getLogger();
 
     private static MySQLConnection sql;
@@ -25,7 +25,7 @@ public class DiscordAllowList {
     public DiscordAllowList() {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.config);
-        Config.loadConfig(Config.config, FMLPaths.CONFIGDIR.get().resolve("discordallowlist-common.toml").toString());
+        Config.loadConfig(Config.config, FMLPaths.CONFIGDIR.get().resolve(MODID + "-common.toml").toString());
 
         String host = MySQLConfig.host.get();
         String port = MySQLConfig.port.get();
@@ -68,6 +68,7 @@ public class DiscordAllowList {
         }
 
         WhiteList.startTimer();
+        MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ServerStartHandler());
         LOGGER.info("Ready to process allow lists.");
     }
