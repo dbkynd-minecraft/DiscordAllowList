@@ -15,9 +15,7 @@ public class CommandReload implements Command<CommandSource> {
     public static final CommandReload CMD = new CommandReload();
 
     public static ArgumentBuilder<CommandSource, ?> register(CommandDispatcher<CommandSource> dispatcher) {
-        return Commands.literal("reload")
-                .requires(cs -> cs.hasPermission(3))
-                .executes(CMD);
+        return Commands.literal("reload").executes(CMD);
     }
 
     @Override

@@ -19,7 +19,6 @@ public class CommandBypassRemove implements Command<CommandSource> {
 
     public static ArgumentBuilder<CommandSource, ?> register(CommandDispatcher<CommandSource> dispatcher) {
         return Commands.literal("bypass")
-                .requires(cs -> cs.hasPermission(3))
                 .then(Commands.literal("remove")
                         .then(Commands.argument("name", StringArgumentType.string())
                                 .executes(CMD)));
