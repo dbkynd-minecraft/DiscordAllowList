@@ -4,26 +4,26 @@ import com.dbkynd.discordallowlist.DiscordAllowList;
 import com.dbkynd.discordallowlist.config.BypassConfig;
 import com.dbkynd.discordallowlist.config.DiscordConfig;
 import com.dbkynd.discordallowlist.discord.DiscordBot;
+import com.dbkynd.discordallowlist.handlers.ServerStartHandler;
+import com.dbkynd.discordallowlist.http.WebRequest;
+import com.dbkynd.discordallowlist.mojang.MojangJSON;
+import com.google.gson.JsonObject;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.minecraft.server.management.WhitelistEntry;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class WhiteList {
     private static final Logger LOGGER = DiscordAllowList.LOGGER;
 
-    private static final ArrayList<String> tempwhitelist = new ArrayList<>();
-
     public static void startTimer() {
-        // Run every 4 hours
-        // new Timer().scheduleAtFixedRate(new reloadSchedule(), 0, 1000 * 60 * 60 * 4);
+        // new Timer().scheduleAtFixedRate(new reloadSchedule(), 0, 1000 * 60 * 30);
         new Timer().scheduleAtFixedRate(new reloadSchedule(), 0, 1000 * 30);
     }
 
@@ -40,7 +40,7 @@ public class WhiteList {
                     String discordId = rs.getString("DiscordId");
                     String minecraftName = rs.getString("MinecraftName");
                     databaseIds.add(discordId);
-                    databaseNames.add(minecraftName);
+                    databaseNames.add(minecraftName.toLowerCase());
                 }
 
                 List<String> currentWhitelist = getWhiteList();
@@ -111,17 +111,30 @@ public class WhiteList {
     }
 
     private static void add(String name) {
-        tempwhitelist.add(name);
+        WhitelistEntry entry = getWhitelistEntry(name);
+        ServerStartHandler.server.getPlayerList().getWhiteList().add(entry);
     }
 
     private static void remove(String name) {
-        tempwhitelist.remove(name);
+        WhitelistEntry entry = getWhitelistEntry(name);
+        ServerStartHandler.server.getPlayerList().getWhiteList().remove(entry);
+    }
+
+    private static WhitelistEntry getWhitelistEntry(String name) {
+        WebRequest request = new WebRequest();
+        MojangJSON data = request.getMojangData(name);
+
+        JsonObject json = new JsonObject();
+        json.addProperty("name", data.getName());
+        json.addProperty("uuid", data.getUUID().toString());
+
+        return new WhitelistEntry(json);
     }
 
     private static List<String> getWhiteList() {
-        return tempwhitelist;
+        ArrayList<String> names = new ArrayList<>(Arrays.asList(ServerStartHandler.server.getPlayerList().getWhiteListNames()));
+        return names.stream().map(String::toLowerCase).collect(Collectors.toList());
     }
-
 
     public static class reloadSchedule extends TimerTask {
         @Override

@@ -5,6 +5,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BypassConfig {
     public static ForgeConfigSpec.ConfigValue<String> bypassNames;
@@ -15,8 +16,8 @@ public class BypassConfig {
         bypassNames = common.comment("Comma delimited list of names that bypass the whitelist.").define("bypass.names", "");
     }
 
-    public static ArrayList<String> getBypassNames() {
+    public static List<String> getBypassNames() {
         String[] names = bypassNames.get().split("(\\s+)?,(\\s+)?");
-        return new ArrayList<>(Arrays.asList(names));
+        return new ArrayList<>(Arrays.asList(names)).stream().map(String::toLowerCase).collect(Collectors.toList());
     }
 }

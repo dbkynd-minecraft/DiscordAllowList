@@ -25,7 +25,7 @@ public class DiscordAllowList {
     public DiscordAllowList() {
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.config);
-        Config.loadConfig(Config.config, FMLPaths.CONFIGDIR.get().resolve("discordAllowList-common.toml").toString());
+        Config.loadConfig(Config.config, FMLPaths.CONFIGDIR.get().resolve("discordallowlist-common.toml").toString());
 
         String host = MySQLConfig.host.get();
         String port = MySQLConfig.port.get();
