@@ -4,8 +4,10 @@ import com.dbkynd.discordallowlist.config.Config;
 import com.dbkynd.discordallowlist.config.DiscordConfig;
 import com.dbkynd.discordallowlist.config.MySQLConfig;
 import com.dbkynd.discordallowlist.discord.DiscordBot;
-import com.dbkynd.discordallowlist.handlers.PlayerJoinHandler;
+import com.dbkynd.discordallowlist.handlers.ServerStartHandler;
 import com.dbkynd.discordallowlist.sql.MySQLConnection;
+import com.dbkynd.discordallowlist.whitelist.WhiteList;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -65,8 +67,8 @@ public class DiscordAllowList {
             return;
         }
 
-        MinecraftForge.EVENT_BUS.register(new PlayerJoinHandler());
-        MinecraftForge.EVENT_BUS.register(this);
+        WhiteList.startTimer();
+        MinecraftForge.EVENT_BUS.register(new ServerStartHandler());
         LOGGER.info("Ready to process allow lists.");
     }
 

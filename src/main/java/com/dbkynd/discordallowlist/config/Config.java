@@ -15,6 +15,7 @@ public class Config {
     static {
         MySQLConfig.init(builder);
         DiscordConfig.init(builder);
+        BypassConfig.init(builder);
         config = builder.build();
     }
 

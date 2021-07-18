@@ -6,13 +6,13 @@ import com.dbkynd.discordallowlist.config.MySQLConfig;
 import com.dbkynd.discordallowlist.http.ImageDownloader;
 import com.dbkynd.discordallowlist.http.WebRequest;
 import com.dbkynd.discordallowlist.mojang.MojangJSON;
+import com.dbkynd.discordallowlist.whitelist.WhiteList;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class AddMeCommandHandler {
@@ -28,8 +28,7 @@ public class AddMeCommandHandler {
         LOGGER.info("/" + event.getName() + " " + ign + " issued from " + event.getUser().getName() + " in channel: " + channelId);
 
         // Make sure the command was ran from a channel we allow
-        String[] channels = DiscordConfig.allowedChannels.get().split("(\\s+)?,(\\s+)?");
-        List<String> channelList = Arrays.asList(channels);
+        List<String> channelList = DiscordConfig.getAllowedChannels();
 
         if (!channelList.contains(channelId)) {
             LOGGER.info("Commands from channel: " + channelId + " are not allowed.");
@@ -77,5 +76,7 @@ public class AddMeCommandHandler {
         MessageEmbed embed = builder.build();
 
         hook.sendMessageEmbeds(embed).queue();
+
+        WhiteList.reload();
     }
 }
