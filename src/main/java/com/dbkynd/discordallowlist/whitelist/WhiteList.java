@@ -23,8 +23,7 @@ public class WhiteList {
     private static final Logger LOGGER = DiscordAllowList.LOGGER;
 
     public static void startTimer() {
-        // new Timer().scheduleAtFixedRate(new reloadSchedule(), 0, 1000 * 60 * 30);
-        new Timer().scheduleAtFixedRate(new reloadSchedule(), 0, 1000 * 30);
+        new Timer().scheduleAtFixedRate(new reloadSchedule(), 0, 1000 * 60 * 30);
     }
 
     public static void reload() {
@@ -83,6 +82,8 @@ public class WhiteList {
 
                     for (Guild guild : guilds) {
                         Member member = guild.retrieveMember(user).complete();
+                        if (member == null) continue;
+
                         List<Role> roles = member.getRoles();
 
                         for (Role role : roles) {
@@ -111,24 +112,30 @@ public class WhiteList {
     }
 
     private static void add(String name) {
-        WhitelistEntry entry = getWhitelistEntry(name);
-        ServerStartHandler.server.getPlayerList().getWhiteList().add(entry);
-    }
-
-    private static void remove(String name) {
-        WhitelistEntry entry = getWhitelistEntry(name);
-        ServerStartHandler.server.getPlayerList().getWhiteList().remove(entry);
-    }
-
-    private static WhitelistEntry getWhitelistEntry(String name) {
         WebRequest request = new WebRequest();
         MojangJSON data = request.getMojangData(name);
+        if (data == null) return;
 
         JsonObject json = new JsonObject();
         json.addProperty("name", data.getName());
         json.addProperty("uuid", data.getUUID().toString());
 
-        return new WhitelistEntry(json);
+        WhitelistEntry entry = new WhitelistEntry(json);
+        ServerStartHandler.server.getPlayerList().getWhiteList().add(entry);
+    }
+
+    private static void remove(String name) {
+        WebRequest request = new WebRequest();
+        MojangJSON data = request.getMojangData(name);
+        if (data == null) return;
+
+        JsonObject json = new JsonObject();
+        json.addProperty("name", data.getName());
+        json.addProperty("uuid", data.getUUID().toString());
+
+        WhitelistEntry entry = new WhitelistEntry(json);
+
+        ServerStartHandler.server.getPlayerList().getWhiteList().remove(entry);
     }
 
     private static List<String> getWhiteList() {

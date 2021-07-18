@@ -10,7 +10,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 
 import java.util.List;
 
@@ -30,12 +30,12 @@ public class CommandBypassAdd implements Command<CommandSource> {
         List<String> names = BypassConfig.getBypassNames();
 
         if (names.contains(name)) {
-            context.getSource().sendSuccess(ITextComponent.nullToEmpty("\"" + name + "\" is already in the bypass list."), false);
+            context.getSource().sendSuccess(new StringTextComponent("\"" + name + "\" is already in the bypass list."), false);
         } else {
             names.add(name);
             BypassConfig.bypassNames.set(String.join(",", names));
             WhiteList.reload();
-            context.getSource().sendSuccess(ITextComponent.nullToEmpty("Added \"" + name + "\" to the bypass list."), false);
+            context.getSource().sendSuccess(new StringTextComponent("Added \"" + name + "\" to the bypass list."), false);
         }
         return 0;
     }

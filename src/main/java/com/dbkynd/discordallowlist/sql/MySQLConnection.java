@@ -54,6 +54,7 @@ public class MySQLConnection {
         connection = null;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
+            LOGGER.info("Successful connection to MySql database.");
         } catch (Exception e) {
             throw new Exception("There was an issue connecting to MySql: " + e.getMessage());
         }
