@@ -70,7 +70,7 @@ public class AddMeCommandHandler {
 
         // Tell the Discord member that everything worked as expected!
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setDescription("```" + mojang.getName() + "```\nhas been added to the Minecraft user database!");
+        builder.setDescription("```" + mojang.getName() + "```\n" + DiscordConfig.embedMessage.get());
         builder.setThumbnail(thumbnail);
         builder.setColor(0x5a9a30);
         MessageEmbed embed = builder.build();
