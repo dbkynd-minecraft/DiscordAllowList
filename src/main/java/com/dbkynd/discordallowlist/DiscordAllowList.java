@@ -26,7 +26,7 @@ public class DiscordAllowList {
     private static MySQLConnection sql;
 
     public DiscordAllowList() {
-
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.config);
         Config.loadConfig(Config.config, FMLPaths.CONFIGDIR.get().resolve(MODID + "-common.toml").toString());
 
@@ -73,7 +73,6 @@ public class DiscordAllowList {
         WhiteList.startTimer();
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ServerStartHandler());
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
         LOGGER.info("Ready to process allow lists.");
     }
 
