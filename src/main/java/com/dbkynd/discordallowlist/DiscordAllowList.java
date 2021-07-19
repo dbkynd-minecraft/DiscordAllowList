@@ -38,25 +38,25 @@ public class DiscordAllowList {
         String password = MySQLConfig.password.get();
         String token = DiscordConfig.botToken.get();
 
-        if (host == null || host.equalsIgnoreCase("")) {
+        if (host.isEmpty()) {
             LOGGER.error("You have not specified a MySql host. Check Configs.");
             return;
-        } else if (port == null || port.equalsIgnoreCase("")) {
+        } else if (port.isEmpty()) {
             LOGGER.error("You have not specified a MySql port. Check Configs.");
             return;
-        } else if (database == null || database.equalsIgnoreCase("")) {
+        } else if (database.isEmpty()) {
             LOGGER.error("You have not specified a MySql database. Check Configs.");
             return;
-        } else if (table == null || table.equalsIgnoreCase("")) {
+        } else if (table.isEmpty()) {
             LOGGER.error("You have not specified a MySql table. Check Configs.");
             return;
-        } else if (username == null || username.equalsIgnoreCase("")) {
+        } else if (username.isEmpty()) {
             LOGGER.error("You have not specified a MySql username. Check Configs.");
             return;
-        } else if (password == null || password.equalsIgnoreCase("")) {
+        } else if (password.isEmpty()) {
             LOGGER.error("You have not specified a MySql password. Check Configs.");
             return;
-        } else if (token == null || token.equalsIgnoreCase("")) {
+        } else if (token.isEmpty()) {
             LOGGER.error("You have not specified a Discord App Bot token. Check Configs.");
             return;
         }
