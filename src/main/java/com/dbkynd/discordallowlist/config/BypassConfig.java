@@ -18,6 +18,8 @@ public class BypassConfig {
 
     public static List<String> getBypassNames() {
         String[] names = bypassNames.get().split("(\\s+)?,(\\s+)?");
-        return new ArrayList<>(Arrays.asList(names)).stream().map(String::toLowerCase).collect(Collectors.toList());
+        return new ArrayList<>(Arrays.asList(names)).stream()
+                .filter(item -> item != null && !item.isEmpty())
+                .map(String::toLowerCase).collect(Collectors.toList());
     }
 }
