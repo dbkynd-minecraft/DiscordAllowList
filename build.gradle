@@ -33,7 +33,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                discordallowlistvvv {
+                discordallowlist {
                     source sourceSets.main
                 }
             }
@@ -79,21 +79,17 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.35'
     compile('mysql:mysql-connector-java:8.0.25')
-    compile files('/lib/JDA-4.3.0_277-withDependencies-no-opus.jar')
+    implementation('net.dv8tion:JDA:4.3.0_298') {
+        exclude module: 'opus-java'
+    }
 }
 
 shadowJar {
     classifier ''
-
-    // project.configurations.shadow.setTransitive(true);
-    // configurations = [project.configurations.compile]
-
-    // dependencies {
-    // include(dependency('mysql:mysql-connector-java:8.0.25'))
-    // include(dependency('net.dv8tion:JDA:4.3.0_297'))
-    // }
-
-    // relocate 'net.dv8tion.jda', 'com.dbkynd.discordallowlist.repack.net.dv8tion.jda'
+    dependencies {
+        include(dependency('mysql:mysql-connector-java:8.0.25'))
+        include(dependency('net.dv8tion:JDA:4.3.0_298'))
+    }
 }
 
 reobf {
