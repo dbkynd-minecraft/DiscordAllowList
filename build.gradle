@@ -78,16 +78,15 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.35'
-    shadow('mysql:mysql-connector-java:8.0.25')
-    // shadow('net.dv8tion:JDA:4.3.0_297')
-    shadow files('/lib/JDA-4.3.0_277-withDependencies-no-opus.jar')
+    compile('mysql:mysql-connector-java:8.0.25')
+    compile files('/lib/JDA-4.3.0_277-withDependencies-no-opus.jar')
 }
 
 shadowJar {
     classifier ''
 
     // project.configurations.shadow.setTransitive(true);
-    configurations = [project.configurations.shadow]
+    // configurations = [project.configurations.compile]
 
     // dependencies {
     // include(dependency('mysql:mysql-connector-java:8.0.25'))
