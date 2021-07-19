@@ -63,6 +63,7 @@ public class DiscordAllowList {
 
         try {
             sql = new MySQLConnection();
+            LOGGER.info("Successful connection to MySql database.");
             DiscordBot.main(null);
         } catch (Exception error) {
             LOGGER.error(error.getMessage());
