@@ -78,18 +78,18 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.35'
-    compile('mysql:mysql-connector-java:8.0.25')
-    implementation('net.dv8tion:JDA:4.3.0_298') {
+    shadow('mysql:mysql-connector-java:8.0.25')
+    shadow('net.dv8tion:JDA:4.3.0_298') {
         exclude module: 'opus-java'
     }
 }
 
 shadowJar {
     classifier ''
-    dependencies {
-        include(dependency('mysql:mysql-connector-java:8.0.25'))
-        include(dependency('net.dv8tion:JDA:4.3.0_298'))
-    }
+    configurations = [project.configurations.shadow]
+
+    relocate('gnu.trove', 'com.dbkynd.discordallowlist.relocated.gnu.trove')
+    relocate('org.apache.commons.collections4', 'com.dbkynd.discordallowlist.relocated.org.apache.commons.collections4')
 }
 
 reobf {
