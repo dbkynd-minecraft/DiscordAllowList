@@ -32,7 +32,7 @@ public class CommandChannelsRemove implements Command<CommandSource> {
         } else {
             channels.remove(id);
             DiscordConfig.storeAllowedChannels(channels);
-            context.getSource().sendSuccess(new StringTextComponent("Removed \"" + id + "\" from the allowed channels list."), false);
+            context.getSource().sendSuccess(new StringTextComponent("Removed \"" + id + "\" from the allowed channels list."), true);
         }
         return 0;
     }

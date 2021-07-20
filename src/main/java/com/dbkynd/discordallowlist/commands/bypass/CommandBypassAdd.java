@@ -42,7 +42,7 @@ public class CommandBypassAdd implements Command<CommandSource> {
             } else {
                 names.add(name);
                 BypassConfig.storeNames(names);
-                context.getSource().sendSuccess(new StringTextComponent("Added \"" + mojangUser.getName() + "\" to the bypass list."), false);
+                context.getSource().sendSuccess(new StringTextComponent("Added \"" + mojangUser.getName() + "\" to the bypass list."), true);
                 WhiteList.reload();
             }
         });

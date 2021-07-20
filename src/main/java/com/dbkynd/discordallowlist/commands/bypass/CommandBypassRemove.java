@@ -42,7 +42,7 @@ public class CommandBypassRemove implements Command<CommandSource> {
             } else {
                 names.remove(name);
                 BypassConfig.bypassNames.set(String.join(",", names));
-                context.getSource().sendSuccess(new StringTextComponent("Removed \"" + mojangUser.getName() + "\" from the bypass list."), false);
+                context.getSource().sendSuccess(new StringTextComponent("Removed \"" + mojangUser.getName() + "\" from the bypass list."), true);
                 WhiteList.reload();
             }
         });

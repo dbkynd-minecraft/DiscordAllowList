@@ -44,7 +44,7 @@ public class CommandChannelsAdd implements Command<CommandSource> {
             } else {
                 channels.add(id);
                 DiscordConfig.storeAllowedChannels(channels);
-                context.getSource().sendSuccess(new StringTextComponent("Added \"" + id + "\" to the allowed channels list."), false);
+                context.getSource().sendSuccess(new StringTextComponent("Added \"" + id + "\" to the allowed channels list."), true);
             }
         });
         thread.start();
