@@ -22,4 +22,9 @@ public class BypassConfig {
                 .filter(item -> item != null && !item.isEmpty())
                 .map(String::toLowerCase).collect(Collectors.toList());
     }
+
+    public static void storeNames(List<String> names) {
+        List<String> filteredNames = Config.removeEmpty(names);
+        bypassNames.set(String.join(",", filteredNames));
+    }
 }

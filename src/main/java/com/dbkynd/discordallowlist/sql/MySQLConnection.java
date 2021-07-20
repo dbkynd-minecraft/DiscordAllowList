@@ -28,9 +28,10 @@ public class MySQLConnection {
         password = MySQLConfig.password.get();
 
         connect();
+        LOGGER.info("Successful connection to MySql database.");
         // Create table if does not exist
         if (!tableExists(table)) {
-            LOGGER.info(table + " table not found. Creating new table...");
+            LOGGER.info(table + " table not found");
             update("CREATE TABLE " + table + " (DiscordId CHAR(18), MinecraftName VARCHAR(16), UUID CHAR(36), PRIMARY KEY (DiscordID));");
             // Ensure table was created before saying so
             if (tableExists(table)) {

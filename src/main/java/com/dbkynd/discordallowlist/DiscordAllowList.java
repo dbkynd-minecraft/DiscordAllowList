@@ -6,7 +6,6 @@ import com.dbkynd.discordallowlist.config.MySQLConfig;
 import com.dbkynd.discordallowlist.discord.DiscordBot;
 import com.dbkynd.discordallowlist.handlers.ServerStartHandler;
 import com.dbkynd.discordallowlist.sql.MySQLConnection;
-import com.dbkynd.discordallowlist.whitelist.WhiteList;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -30,40 +29,31 @@ public class DiscordAllowList {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.config);
         Config.loadConfig(Config.config, FMLPaths.CONFIGDIR.get().resolve(MODID + "-common.toml").toString());
 
-        String host = MySQLConfig.host.get();
-        String port = MySQLConfig.port.get();
-        String database = MySQLConfig.database.get();
-        String table = MySQLConfig.table.get();
-        String username = MySQLConfig.username.get();
-        String password = MySQLConfig.password.get();
-        String token = DiscordConfig.botToken.get();
-
-        if (host.isEmpty()) {
+        if (MySQLConfig.host.get().isEmpty()) {
             LOGGER.error("You have not specified a MySql host. Check Configs.");
             return;
-        } else if (port.isEmpty()) {
+        } else if (MySQLConfig.port.get().isEmpty()) {
             LOGGER.error("You have not specified a MySql port. Check Configs.");
             return;
-        } else if (database.isEmpty()) {
+        } else if (MySQLConfig.database.get().isEmpty()) {
             LOGGER.error("You have not specified a MySql database. Check Configs.");
             return;
-        } else if (table.isEmpty()) {
+        } else if (MySQLConfig.table.get().isEmpty()) {
             LOGGER.error("You have not specified a MySql table. Check Configs.");
             return;
-        } else if (username.isEmpty()) {
+        } else if (MySQLConfig.username.get().isEmpty()) {
             LOGGER.error("You have not specified a MySql username. Check Configs.");
             return;
-        } else if (password.isEmpty()) {
+        } else if (MySQLConfig.password.get().isEmpty()) {
             LOGGER.error("You have not specified a MySql password. Check Configs.");
             return;
-        } else if (token.isEmpty()) {
+        } else if (DiscordConfig.botToken.get().isEmpty()) {
             LOGGER.error("You have not specified a Discord App Bot token. Check Configs.");
             return;
         }
 
         try {
             sql = new MySQLConnection();
-            LOGGER.info("Successful connection to MySql database.");
             DiscordBot.main(null);
         } catch (Exception error) {
             LOGGER.error(error.getMessage());
@@ -71,7 +61,6 @@ public class DiscordAllowList {
             return;
         }
 
-        WhiteList.startTimer();
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ServerStartHandler());
         LOGGER.info("Ready to process allow lists.");

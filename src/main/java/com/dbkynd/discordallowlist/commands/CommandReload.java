@@ -20,9 +20,16 @@ public class CommandReload implements Command<CommandSource> {
 
     @Override
     public int run(CommandContext<CommandSource> context) throws CommandSyntaxException {
-        WhiteList.reload();
-        context.getSource().sendSuccess(new StringTextComponent("Reloaded the allow list."), false);
+        Thread thread = new Thread(() -> {
+            try {
+                WhiteList.reload();
+                context.getSource().sendSuccess(new StringTextComponent("Allow list reloaded."), false);
+            } catch (Exception e) {
+                e.printStackTrace();
+                context.getSource().sendFailure(new StringTextComponent("There was an error reloading the allow list."));
+            }
+        });
+        thread.start();
         return 0;
     }
-
 }
