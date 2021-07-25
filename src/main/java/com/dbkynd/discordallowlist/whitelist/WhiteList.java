@@ -28,7 +28,7 @@ public class WhiteList {
 
     public static void reload() {
         Thread asyncKick = new Thread(() -> {
-            LOGGER.info("Running whitelist reload script.");
+            // LOGGER.info("Running whitelist reload script.");
             List<String> databaseIds = new ArrayList<>();
             List<String> databaseNames = new ArrayList<>();
 
@@ -106,7 +106,7 @@ public class WhiteList {
                 LOGGER.error("Error reloading the whitelist: " + e.getMessage());
             }
 
-            LOGGER.info("Done reloading whitelist.");
+            // LOGGER.info("Done reloading whitelist.");
         });
         asyncKick.start();
     }
